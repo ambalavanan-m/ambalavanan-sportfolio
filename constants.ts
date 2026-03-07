@@ -117,7 +117,7 @@ export const PROJECTS: Project[] = [
     title: 'Qr code Generator',
     image: '/qrcode.webp',
     githubUrl: 'https://github.com/ambalavanan01/Qr-generation',
-    liveUrl: 'https://am-rag.streamlit.app/',
+    liveUrl: 'https://qrcodegenerator-pro.neocities.org/',
     techStack: ['Python', 'Streamlit', 'QR Code'],
     description: 'Qr code generation for all Text, URL, wifi connection, mail sending',
   },
