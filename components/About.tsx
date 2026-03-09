@@ -4,40 +4,61 @@ import { GitHubCalendar } from 'react-github-calendar';
 import { db } from '../firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import StarRating from './StarRating';
-import { Star, MessageSquare, Quote, Pin } from 'lucide-react';
+import { Star, MessageSquare, Quote, Pin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const About: React.FC = () => {
   const [averageRating, setAverageRating] = React.useState<number | null>(null);
   const [totalReviews, setTotalReviews] = React.useState<number>(0);
-  const [pinnedReview, setPinnedReview] = React.useState<any>(null);
+  const [pinnedReviews, setPinnedReviews] = React.useState<any[]>([]);
+  const [currentIndex, setCurrentIndex] = React.useState(0);
 
   React.useEffect(() => {
     const q = query(collection(db, 'reviews'), where('status', '==', 'approved'));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const reviews = querySnapshot.docs.map(doc => doc.data());
+      const reviews = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setTotalReviews(reviews.length);
       if (reviews.length > 0) {
-        const total = reviews.reduce((acc, curr) => acc + curr.rating, 0);
+        const total = reviews.reduce((acc, curr: any) => acc + curr.rating, 0);
         setAverageRating(Number((total / reviews.length).toFixed(1)));
       } else {
         setAverageRating(null);
       }
 
-      const pinned = reviews.find(r => r.isPinned === true);
-      setPinnedReview(pinned || null);
+      const pinned = reviews.filter((r: any) => r.isPinned === true);
+      setPinnedReviews(pinned);
     });
     return () => unsubscribe();
   }, []);
 
+  // Auto-play carousel
+  React.useEffect(() => {
+    if (pinnedReviews.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % pinnedReviews.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [pinnedReviews.length]);
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % pinnedReviews.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + pinnedReviews.length) % pinnedReviews.length);
+  };
+
   return (
-    <section id="about" className="py-24 bg-white  transition-colors duration-300 relative">
+    <section id="about" className="py-24 bg-white transition-colors duration-300 relative">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center gap-16">
 
           {/* Left: Animation Area */}
           <div className="w-full md:w-1/2 flex justify-center">
             <FadeIn direction="up">
-              <div className="relative w-full max-w-md aspect-square rounded-3xl bg-slate-50  p-8 flex items-center justify-center overflow-hidden group shadow-inner">
+              <div className="relative w-full max-w-md aspect-square rounded-3xl bg-slate-50 p-8 flex items-center justify-center overflow-hidden group shadow-inner">
                 {/* Floating Elements */}
                 <img
                   src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Technologist.png"
@@ -45,10 +66,10 @@ const About: React.FC = () => {
                   className="w-64 h-64 object-contain animate-float drop-shadow-xl transition-all duration-500 transform group-hover:scale-110"
                 />
 
-                <div className="absolute bottom-10 left-10 bg-white/90  backdrop-blur-md border border-slate-100  p-4 rounded-xl shadow-xl animate-float" style={{ animationDelay: '1s' }}>
+                <div className="absolute bottom-10 left-10 bg-white/90 backdrop-blur-md border border-slate-100 p-4 rounded-xl shadow-xl animate-float" style={{ animationDelay: '1s' }}>
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                    <span className="text-sm font-mono text-slate-600 ">Open to opportunities</span>
+                    <span className="text-sm font-mono text-slate-600">Open to opportunities</span>
                   </div>
                 </div>
               </div>
@@ -60,15 +81,15 @@ const About: React.FC = () => {
             <FadeIn direction="up" delay={200}>
               <div className="space-y-2">
                 <h2 className="text-primary font-bold tracking-widest uppercase text-sm">About Me</h2>
-                <h3 className="text-3xl md:text-4xl font-bold text-slate-900 ">Passionate <br />Developer</h3>
+                <h3 className="text-3xl md:text-4xl font-bold text-slate-900">Passionate <br />Developer</h3>
               </div>
 
-              <div className="text-slate-600  space-y-4 leading-relaxed text-lg">
+              <div className="text-slate-600 space-y-4 leading-relaxed text-lg">
                 <p>
-                  I am a motivated <strong className="text-slate-900 ">Developer</strong> with a solid grasp of <span className="text-primary font-medium">Java, Python, C++, and Web Technologies</span>. I enjoy solving algorithmic problems and building useful applications.
+                  I am a motivated <strong className="text-slate-900">Developer</strong> with a solid grasp of <span className="text-primary font-medium">Java, Python, C++, and Web Technologies</span>. I enjoy solving algorithmic problems and building useful applications.
                 </p>
                 <p>
-                  My portfolio features projects ranging from <strong className="text-slate-800 ">Crisis Management</strong> to <strong className="text-slate-800 ">Blockchain Voting</strong>, reflecting my interest in secure and impactful software development.
+                  My portfolio features projects ranging from <strong className="text-slate-800">Crisis Management</strong> to <strong className="text-slate-800">Blockchain Voting</strong>, reflecting my interest in secure and impactful software development.
                 </p>
               </div>
 
@@ -113,33 +134,86 @@ const About: React.FC = () => {
                         </div>
                       </div>
                       <div className="flex gap-1">
-                        <StarRating rating={Math.round(averageRating || 0)} />
+                        <StarRating rating={averageRating || 0} />
                       </div>
                     </div>
 
-                    {/* Pinned Testimonial */}
-                    {pinnedReview && (
-                      <div className="relative bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-100/50 rounded-2xl p-6 overflow-hidden group">
-                        <div className="absolute top-4 right-4 text-blue-400 opacity-20 group-hover:opacity-40 transition-opacity">
-                          <Quote size={40} />
-                        </div>
-                        <div className="absolute -left-1 top-0 bottom-0 w-1 bg-primary rounded-l-2xl"></div>
-                        <div className="flex items-center gap-2 mb-3 text-primary">
-                          <Pin size={14} className="fill-current" />
-                          <span className="text-[10px] font-bold uppercase tracking-widest">Featured Review</span>
-                        </div>
-                        <p className="text-slate-700 italic text-sm leading-relaxed mb-4 relative z-10">
-                          "{pinnedReview.comment}"
-                        </p>
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs">
-                            {pinnedReview.name.charAt(0)}
-                          </div>
-                          <div>
-                            <p className="text-xs font-bold text-slate-900">{pinnedReview.name}</p>
-                            <p className="text-[10px] text-slate-500">Verified Client</p>
-                          </div>
-                        </div>
+                    {/* Pinned Testimonial Carousel */}
+                    {pinnedReviews.length > 0 && (
+                      <div className="relative overflow-hidden group">
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={currentIndex}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            transition={{ duration: 0.4, ease: "easeInOut" }}
+                            className="relative bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-100/50 rounded-2xl p-6 overflow-hidden min-h-[180px]"
+                          >
+                            <div className="absolute top-4 right-4 text-blue-400 opacity-20 group-hover:opacity-40 transition-opacity">
+                              <Quote size={40} />
+                            </div>
+                            <div className="absolute -left-1 top-0 bottom-0 w-1 bg-primary rounded-l-2xl"></div>
+
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center gap-2 text-primary">
+                                <Pin size={14} className="fill-current" />
+                                <span className="text-[10px] font-bold uppercase tracking-widest">Featured Review</span>
+                              </div>
+                              <div className="flex gap-1">
+                                <StarRating rating={pinnedReviews[currentIndex].rating} />
+                              </div>
+                            </div>
+
+                            <p className="text-slate-700 italic text-sm leading-relaxed mb-4 relative z-10">
+                              "{pinnedReviews[currentIndex].comment}"
+                            </p>
+
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                                {pinnedReviews[currentIndex].name.charAt(0)}
+                              </div>
+                              <div>
+                                <p className="text-xs font-bold text-slate-900">{pinnedReviews[currentIndex].name}</p>
+                                <p className="text-[10px] text-slate-500">Verified Client</p>
+                              </div>
+                            </div>
+                          </motion.div>
+                        </AnimatePresence>
+
+                        {/* Navigation Controls */}
+                        {pinnedReviews.length > 1 && (
+                          <>
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button
+                                onClick={prevSlide}
+                                className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm border border-slate-200 flex items-center justify-center text-slate-600 hover:text-primary transition-colors"
+                              >
+                                <ChevronLeft size={18} />
+                              </button>
+                            </div>
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button
+                                onClick={nextSlide}
+                                className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm border border-slate-200 flex items-center justify-center text-slate-600 hover:text-primary transition-colors"
+                              >
+                                <ChevronRight size={18} />
+                              </button>
+                            </div>
+
+                            {/* Dots Indicator */}
+                            <div className="flex justify-center gap-1.5 mt-4">
+                              {pinnedReviews.map((_, idx) => (
+                                <button
+                                  key={idx}
+                                  onClick={() => setCurrentIndex(idx)}
+                                  className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${currentIndex === idx ? 'bg-primary w-4' : 'bg-slate-300 hover:bg-slate-400'
+                                    }`}
+                                />
+                              ))}
+                            </div>
+                          </>
+                        )}
                       </div>
                     )}
                   </div>

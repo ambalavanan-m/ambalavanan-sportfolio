@@ -37,22 +37,10 @@ const AdminPanel: React.FC = () => {
 
     const handlePin = async (id: string, isCurrentlyPinned: boolean) => {
         try {
-            if (!isCurrentlyPinned) {
-                // Unpin all other reviews first
-                const batch = writeBatch(db);
-                const pinnedQuery = query(collection(db, 'reviews'), where('isPinned', '==', true));
-                const pinnedDocs = await getDocs(pinnedQuery);
-                pinnedDocs.forEach((doc) => {
-                    batch.update(doc.ref, { isPinned: false });
-                });
-                // Pin the new one
-                batch.update(doc(db, 'reviews', id), { isPinned: true });
-                await batch.commit();
-                toast.success('Review pinned!');
-            } else {
-                await updateDoc(doc(db, 'reviews', id), { isPinned: false });
-                toast.success('Review unpinned!');
-            }
+            await updateDoc(doc(db, 'reviews', id), {
+                isPinned: !isCurrentlyPinned
+            });
+            toast.success(isCurrentlyPinned ? 'Review unpinned!' : 'Review pinned!');
         } catch (error) {
             console.error('Error pinning review:', error);
             toast.error('Failed to pin review.');
