@@ -1,17 +1,20 @@
 import React from 'react';
 import FadeIn from './FadeIn';
-import { GitHubCalendar } from 'react-github-calendar';
 import { db } from '../firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import StarRating from './StarRating';
-import { Star, MessageSquare, Quote, Pin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, MessageSquare, Quote, Pin, ChevronLeft, ChevronRight, Award } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import CredlyBadge from './CredlyBadge';
+import { CERTIFICATIONS } from '../constants';
+
 
 const About: React.FC = () => {
   const [averageRating, setAverageRating] = React.useState<number | null>(null);
   const [totalReviews, setTotalReviews] = React.useState<number>(0);
   const [pinnedReviews, setPinnedReviews] = React.useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [certIndex, setCertIndex] = React.useState(0);
 
   React.useEffect(() => {
     const q = query(collection(db, 'reviews'), where('status', '==', 'approved'));
@@ -41,6 +44,23 @@ const About: React.FC = () => {
 
     return () => clearInterval(interval);
   }, [pinnedReviews.length]);
+
+  // Certifications Auto-play
+  React.useEffect(() => {
+    if (CERTIFICATIONS.length <= 1) return;
+    const interval = setInterval(() => {
+      setCertIndex((prev) => (prev + 1) % CERTIFICATIONS.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const nextCert = () => {
+    setCertIndex((prev) => (prev + 1) % CERTIFICATIONS.length);
+  };
+
+  const prevCert = () => {
+    setCertIndex((prev) => (prev - 1 + CERTIFICATIONS.length) % CERTIFICATIONS.length);
+  };
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % pinnedReviews.length);
@@ -95,19 +115,44 @@ const About: React.FC = () => {
 
               <div className="grid gap-6 pt-4">
                 <div className="pt-6 w-full overflow-hidden">
-                  <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4 border-b border-slate-100 pb-2">
-                    <i className="fa-brands fa-github text-primary mr-2"></i>
-                    GitHub Contributions (January {new Date().getFullYear()} - December {new Date().getFullYear()})
+                  <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4 border-b border-slate-100 pb-2 flex items-center gap-2">
+                    <Award size={16} className="text-primary" />
+                    Certifications & Badges
                   </h4>
-                  <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex justify-center text-xs sm:text-sm">
-                    <GitHubCalendar
-                      username="ambalavanan01"
-                      year={new Date().getFullYear()}
-                      blockSize={12}
-                      blockMargin={4}
-                      fontSize={12}
-                      colorScheme="light"
-                    />
+                  <div className="relative group">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={certIndex}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 1.05 }}
+                        transition={{ duration: 0.4 }}
+                        className="flex justify-center"
+                      >
+                        <CredlyBadge 
+                          badgeId={CERTIFICATIONS[certIndex].id} 
+                          width={320}
+                          height={280}
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+
+                    {CERTIFICATIONS.length > 1 && (
+                      <>
+                        <button
+                          onClick={prevCert}
+                          className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm border border-slate-200 flex items-center justify-center text-slate-600 hover:text-primary transition-all opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0"
+                        >
+                          <ChevronLeft size={20} />
+                        </button>
+                        <button
+                          onClick={nextCert}
+                          className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm border border-slate-200 flex items-center justify-center text-slate-600 hover:text-primary transition-all opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0"
+                        >
+                          <ChevronRight size={20} />
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -122,19 +167,22 @@ const About: React.FC = () => {
                   </h4>
 
                   <div className="grid grid-cols-1 gap-4">
-                    {/* Stats Card */}
-                    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex items-center justify-between shadow-sm">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-600">
-                          <Star size={24} fill="currentColor" />
+                    {/* Stats and Badge Grid */}
+                    <div className="grid grid-cols-1 gap-4">
+                      {/* Stats Card */}
+                      <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex items-center justify-between shadow-sm">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-600">
+                            <Star size={24} fill="currentColor" />
+                          </div>
+                          <div>
+                            <p className="text-2xl font-bold text-slate-900">{averageRating || '0.0'}</p>
+                            <p className="text-xs text-slate-500 font-medium">Average Rating</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-2xl font-bold text-slate-900">{averageRating || '0.0'}</p>
-                          <p className="text-xs text-slate-500 font-medium">Average Rating</p>
+                        <div className="flex gap-1">
+                          <StarRating rating={averageRating || 0} />
                         </div>
-                      </div>
-                      <div className="flex gap-1">
-                        <StarRating rating={averageRating || 0} />
                       </div>
                     </div>
 
