@@ -127,8 +127,8 @@ export const FORMSPREE_URL = "https://formspree.io/f/mrepwolr";
 
 export const CERTIFICATIONS: Certification[] = [
   {
-    id: '7410ae14-4e0e-4f18-bad7-d4545795d6b6',
     title: 'AWS Certified Cloud Practitioner',
-    issuer: 'Amazon Web Services (AWS)'
+    issuer: 'Amazon Web Services (AWS)',
+    image: '/aws-academy-graduate-cloud-foundations-training-bad.png'
   }
-];
+];

@@ -31,7 +31,8 @@ export interface ContactFormState {
 export type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
 export interface Certification {
-  id: string;
+  id?: string;
   title: string;
   issuer: string;
-}
+  image?: string;
+}

@@ -129,11 +129,24 @@ const About: React.FC = () => {
                         transition={{ duration: 0.4 }}
                         className="flex justify-center"
                       >
-                        <CredlyBadge 
-                          badgeId={CERTIFICATIONS[certIndex].id} 
-                          width={320}
-                          height={280}
-                        />
+                        {CERTIFICATIONS[certIndex].image ? (
+                          <div className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                            <img 
+                              src={CERTIFICATIONS[certIndex].image} 
+                              alt={CERTIFICATIONS[certIndex].title}
+                              className="w-[200px] h-[150px] object-contain"
+                            />
+                            <p className="mt-4 text-xs font-bold text-slate-400 uppercase tracking-widest text-center">
+                              {CERTIFICATIONS[certIndex].issuer}
+                            </p>
+                          </div>
+                        ) : (
+                          <CredlyBadge 
+                            badgeId={CERTIFICATIONS[certIndex].id || ''} 
+                            width={200}
+                            height={150}
+                          />
+                        )}
                       </motion.div>
                     </AnimatePresence>
 
