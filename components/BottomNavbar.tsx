@@ -19,14 +19,6 @@ const BottomNavbar: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
-      // Hide on scroll down, show on scroll up
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      setLastScrollY(currentScrollY);
 
       // Track active section
       const sections = navItems.map(item => item.href.substring(1));
@@ -42,18 +34,18 @@ const BottomNavbar: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   return (
     <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-[400px]"
-        >
-          <div className="glass-card rounded-full px-6 py-3 flex justify-between items-center border border-white/20 shadow-2xl">
+      <motion.div
+        initial={{ y: 0, opacity: 1 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 100, opacity: 0 }}
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-[400px]"
+      >
+        <div className="glass-card rounded-full px-6 py-3 flex justify-between items-center border border-white/20 shadow-2xl">
+
             {navItems.map((item) => {
               const isActive = activeSection === item.href.substring(1);
               return (
@@ -80,8 +72,8 @@ const BottomNavbar: React.FC = () => {
             })}
           </div>
         </motion.div>
-      )}
     </AnimatePresence>
+
   );
 };
 

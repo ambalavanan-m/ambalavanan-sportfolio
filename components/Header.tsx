@@ -5,7 +5,6 @@ import { useTheme } from './ThemeContext';
 
 const Header: React.FC = () => {
   const { theme } = useTheme();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
@@ -28,10 +27,6 @@ const Header: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleOverlayClick = () => {
-    setIsMobileMenuOpen(false);
-  };
 
   return (
     <>
@@ -92,56 +87,8 @@ const Header: React.FC = () => {
               Let's Talk
             </a>
           </nav>
-
-          {/* Mobile Hamburger */}
-          <div className="md:hidden flex items-center gap-4">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-2xl text-slate-800  focus:outline-none p-2"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <i className="fa-solid fa-times"></i> : <i className="fa-solid fa-bars"></i>}
-            </button>
-          </div>
         </div>
       </header>
-
-      {/* Mobile Menu Popup */}
-      <div
-        className={`fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 transition-opacity duration-300 md:hidden flex justify-end ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-          }`}
-        onClick={handleOverlayClick}
-      >
-        <div
-          className={`w-full max-w-xs h-full bg-white  shadow-2xl flex flex-col items-center justify-center space-y-8 transform transition-transform duration-300 p-6 ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-            }`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {NAV_LINKS.map((link) => {
-            const isActive = activeSection === link.href.substring(1);
-            return (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-2xl font-medium transition-colors ${isActive
-                  ? 'text-primary '
-                  : 'text-slate-800  hover:text-primary '
-                  }`}
-              >
-                {link.name}
-              </a>
-            );
-          })}
-          <a
-            href="#contact"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="w-full text-center py-4 bg-primary text-white font-bold rounded-xl shadow-lg"
-          >
-            Contact Me
-          </a>
-        </div>
-      </div>
     </>
   );
 };

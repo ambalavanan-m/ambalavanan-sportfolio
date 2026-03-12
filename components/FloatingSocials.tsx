@@ -123,7 +123,7 @@ const FloatingSocials: React.FC = () => {
     return (
         <>
             {/* Floating Action Button (Mobile/Tablet/Desktop View) */}
-            <div className="fixed right-6 bottom-6 z-50">
+            <div className="fixed right-6 bottom-24 md:bottom-6 z-50">
                 <AnimatePresence>
                     {isOpen && (
                         <div className="flex flex-col-reverse items-center gap-4 mb-4">
