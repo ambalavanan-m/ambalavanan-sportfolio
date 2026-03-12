@@ -71,7 +71,7 @@ const Hero: React.FC = () => {
           <div className="relative w-72 h-72 md:w-96 md:h-96">
             <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-full blur-2xl opacity-20 animate-pulse"></div>
             <img
-              src="/profile.webp"
+              src="/profile.png"
               alt="Ambalavanan Profile"
               className="relative w-full h-full object-cover rounded-3xl shadow-2xl z-10 rotate-3 hover:rotate-0 transition-transform duration-500 border-4 border-white"
               loading="eager"
