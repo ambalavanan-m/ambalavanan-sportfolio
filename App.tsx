@@ -9,10 +9,11 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import ResumeViewer from './components/ResumeViewer';
 import BottomNavbar from './components/BottomNavbar';
 import { ThemeProvider } from './components/ThemeContext';
-import AdminPanel from './components/AdminPanel';
+
+const ResumeViewer = React.lazy(() => import('./components/ResumeViewer'));
+const AdminPanel = React.lazy(() => import('./components/AdminPanel'));
 
 const Portfolio: React.FC = () => (
   <motion.div
@@ -51,11 +52,20 @@ const AnimatedRoutes = () => {
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.4 }}
             >
-              <ResumeViewer />
+              <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center text-primary">Loading Resume...</div>}>
+                <ResumeViewer />
+              </React.Suspense>
             </motion.div>
           }
         />
-        <Route path="/admin" element={<AdminPanel />} />
+        <Route 
+          path="/admin" 
+          element={
+            <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center text-primary">Loading Admin Panel...</div>}>
+              <AdminPanel />
+            </React.Suspense>
+          } 
+        />
       </Routes>
     </AnimatePresence>
   );
