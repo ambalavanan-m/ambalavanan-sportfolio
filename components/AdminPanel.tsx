@@ -193,18 +193,18 @@ const AdminPanel: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-slate-950 p-8 text-white">
+        <div className="min-h-screen bg-slate-950 p-4 sm:p-8 text-white">
             <div className="max-w-6xl mx-auto">
-                <header className="flex justify-between items-center mb-12">
+                <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-0 mb-12">
                     <div>
-                        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                        <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                             Admin Review Panel
                         </h1>
-                        <p className="text-slate-400 mt-2">Manage and approve user testimonials</p>
+                        <p className="text-slate-400 mt-2 text-sm md:text-base">Manage and approve user testimonials</p>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <div className="px-4 py-2 bg-white/5 rounded-lg border border-white/10 hidden md:block">
-                            <span className="text-blue-400 font-bold">{reviews.length}</span> Total Reviews
+                    <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                        <div className="px-4 py-2 bg-white/5 rounded-lg border border-white/10">
+                            <span className="text-blue-400 font-bold">{reviews.length}</span> <span className="hidden sm:inline">Total Reviews</span><span className="sm:inline hidden">Reviews</span>
                         </div>
                         <button
                             onClick={handleLogout}
@@ -216,10 +216,10 @@ const AdminPanel: React.FC = () => {
                     </div>
                 </header>
 
-                <div className="flex gap-4 mb-8">
+                <div className="flex flex-wrap gap-4 mb-8">
                     <button
                         onClick={() => setActiveTab('reviews')}
-                        className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${
+                        className={`flex-1 sm:flex-none flex justify-center items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${
                             activeTab === 'reviews' 
                             ? 'bg-blue-600 text-white' 
                             : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
@@ -229,7 +229,7 @@ const AdminPanel: React.FC = () => {
                     </button>
                     <button
                         onClick={() => setActiveTab('users')}
-                        className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${
+                        className={`flex-1 sm:flex-none flex justify-center items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${
                             activeTab === 'users' 
                             ? 'bg-blue-600 text-white' 
                             : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
@@ -256,16 +256,16 @@ const AdminPanel: React.FC = () => {
                                 >
                                     <div className="flex flex-col md:flex-row justify-between gap-6">
                                         <div className="flex-grow space-y-4">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-xl">
+                                            <div className="flex flex-wrap items-center gap-4">
+                                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-xl shrink-0">
                                                     {review.name.charAt(0)}
                                                 </div>
-                                                <div>
-                                                    <h3 className="text-xl font-bold">{review.name}</h3>
-                                                    <p className="text-sm text-slate-400">{review.email}</p>
+                                                <div className="min-w-0 flex-1">
+                                                    <h3 className="text-xl font-bold truncate">{review.name}</h3>
+                                                    <p className="text-sm text-slate-400 break-all sm:break-normal">{review.email}</p>
                                                 </div>
                                                 {review.status === 'pending' && (
-                                                    <span className="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full flex items-center gap-1">
+                                                    <span className="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full flex items-center gap-1 shrink-0">
                                                         <Clock size={12} /> Pending
                                                     </span>
                                                 )}
@@ -282,18 +282,18 @@ const AdminPanel: React.FC = () => {
                                             </p>
                                         </div>
 
-                                        <div className="flex md:flex-col gap-3 justify-end whitespace-nowrap">
+                                        <div className="flex flex-col sm:flex-row md:flex-col gap-3 justify-end whitespace-nowrap">
                                             {review.status === 'pending' && (
                                                 <button
                                                     onClick={() => handleApprove(review.id)}
-                                                    className="flex-1 md:flex-none px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
+                                                    className="w-full sm:flex-1 md:w-auto md:flex-none px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
                                                 >
                                                     <Check size={18} /> Approve
                                                 </button>
                                             )}
                                             <button
                                                 onClick={() => handlePin(review.id, review.isPinned)}
-                                                className={`flex-1 md:flex-none px-6 py-3 font-bold rounded-xl transition-all border flex items-center justify-center gap-2 ${review.isPinned
+                                                className={`w-full sm:flex-1 md:w-auto md:flex-none px-6 py-3 font-bold rounded-xl transition-all border flex items-center justify-center gap-2 ${review.isPinned
                                                     ? 'bg-yellow-500/20 border-yellow-500/50 text-yellow-500 hover:bg-yellow-500/30'
                                                     : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
                                                     }`}
@@ -303,7 +303,7 @@ const AdminPanel: React.FC = () => {
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(review.id)}
-                                                className="flex-1 md:flex-none px-6 py-3 bg-red-600/10 hover:bg-red-600 text-red-500 hover:text-white font-bold rounded-xl transition-all border border-red-600/20 flex items-center justify-center gap-2"
+                                                className="w-full sm:flex-1 md:w-auto md:flex-none px-6 py-3 bg-red-600/10 hover:bg-red-600 text-red-500 hover:text-white font-bold rounded-xl transition-all border border-red-600/20 flex items-center justify-center gap-2"
                                             >
                                                 <Trash2 size={18} /> Delete
                                             </button>
@@ -325,11 +325,11 @@ const AdminPanel: React.FC = () => {
                                 ) : (
                                     adminUsers.map(user => (
                                         <div key={user.id} className="p-4 bg-slate-900 border border-white/10 rounded-xl flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center font-bold">
+                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center font-bold shrink-0">
                                                 {user.email.charAt(0).toUpperCase()}
                                             </div>
-                                            <div>
-                                                <h3 className="text-white font-medium">{user.email}</h3>
+                                            <div className="min-w-0">
+                                                <h3 className="text-white font-medium truncate">{user.email}</h3>
                                                 <p className="text-xs text-slate-500">
                                                     Added: {user.createdAt?.toDate ? user.createdAt.toDate().toLocaleDateString() : 'Just now'}
                                                 </p>
