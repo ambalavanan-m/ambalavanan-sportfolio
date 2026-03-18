@@ -12,7 +12,7 @@ const Skills: React.FC = () => {
           <h3 className="text-3xl md:text-4xl font-bold text-slate-900 ">Technical Proficiency</h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {SKILL_CATEGORIES.map((category, catIndex) => (
             <FadeIn key={category.title} delay={catIndex * 100} className="h-full">
               <div className="bg-white  p-6 rounded-2xl h-full shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100  hover:border-blue-100 ">

@@ -11,6 +11,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import BottomNavbar from './components/BottomNavbar';
 import { ThemeProvider } from './components/ThemeContext';
+import FloatingShare from './components/FloatingShare';
 
 const ResumeViewer = React.lazy(() => import('./components/ResumeViewer'));
 const AdminPanel = React.lazy(() => import('./components/AdminPanel'));
@@ -78,6 +79,7 @@ const App: React.FC = () => {
       <Router>
         <AnimatedRoutes />
       </Router>
+      <FloatingShare />
     </ThemeProvider>
   );
 };

@@ -169,7 +169,7 @@ const Contact: React.FC = () => {
                   <a href="https://github.com/ambalavanan01" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-slate-900 transition-all duration-300 border border-white/20" aria-label="GitHub">
                     <i className="fa-brands fa-github text-lg"></i>
                   </a>
-                  <a href="https://www.linkedin.com/in/ambalavananm/" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-[#0077b5] transition-all duration-300 border border-white/20" aria-label="LinkedIn">
+                  <a href="https://www.linkedin.com/in/ambalavanan-m/" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-[#0077b5] transition-all duration-300 border border-white/20" aria-label="LinkedIn">
                     <i className="fa-brands fa-linkedin-in text-lg"></i>
                   </a>
                   <a href="https://x.com/iam_ambalavanan" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300 border border-white/20" aria-label="X (Twitter)">

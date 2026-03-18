@@ -9,6 +9,12 @@ export const NAV_LINKS = [
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
+    title: 'Certified Courses',
+    skills: [
+      { name: 'AWS Cloud Foundation', iconClass: 'devicon-amazonwebservices-plain-wordmark colored', percentage: 100 }
+    ]
+  },
+  {
     title: 'Programming Languages',
     skills: [
       { name: 'Java', iconClass: 'devicon-java-plain colored', percentage: 90 },

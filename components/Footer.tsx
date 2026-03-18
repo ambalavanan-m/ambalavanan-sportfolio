@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
             <a href="https://github.com/ambalavanan01" className="w-10 h-10 rounded-full bg-white shadow-sm hover:shadow-md text-slate-500 hover:text-slate-900 flex items-center justify-center transition-all duration-300" aria-label="GitHub">
               <i className="fa-brands fa-github text-xl"></i>
             </a>
-            <a href="https://www.linkedin.com/in/ambalavananm/" className="w-10 h-10 rounded-full bg-white shadow-sm hover:shadow-md text-slate-500 hover:text-blue-600 flex items-center justify-center transition-all duration-300" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/in/ambalavanan-m/" className="w-10 h-10 rounded-full bg-white shadow-sm hover:shadow-md text-slate-500 hover:text-blue-600 flex items-center justify-center transition-all duration-300" aria-label="LinkedIn">
               <i className="fa-brands fa-linkedin-in text-xl"></i>
             </a>
             <a href="https://x.com/iam_ambalavanan" className="w-10 h-10 rounded-full bg-white shadow-sm hover:shadow-md text-slate-500 hover:text-black flex items-center justify-center transition-all duration-300" aria-label="X (Twitter)">
@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
           </p>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            <span className="text-slate-500 font-mono text-xs font-medium tracking-wider">v2.2.10</span>
+            <span className="text-slate-500 font-mono text-xs font-medium tracking-wider">v2.3.1</span>
           </div>
         </div>
       </div>
