@@ -91,7 +91,7 @@ const Projects: React.FC = () => {
                   >
                     <img
                       src={project.image}
-                      alt={project.title}
+                      alt={`Screenshot of ${project.title} - Portfolio Showcase`}
                       loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />

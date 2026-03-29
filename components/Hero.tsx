@@ -20,10 +20,10 @@ const Hero: React.FC = () => {
             <span className="inline-block py-1.5 px-4 rounded-full bg-blue-50 border border-blue-100 text-primary text-sm font-bold tracking-wide uppercase mb-2">
               Portfolio
             </span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 leading-[1.1]">
-              Hi, I'm <br />
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.1]">
+              Ambalavanan M <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                Ambalavanan
+                Software Engineer
               </span>
             </h1>
             <p className="text-slate-600  text-lg md:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light min-h-[60px]">
@@ -73,7 +73,7 @@ const Hero: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-full blur-2xl opacity-20 animate-pulse"></div>
             <img
               src="/profile.png"
-              alt="Ambalavanan Profile"
+              alt="Ambalavanan M - Software Engineer and Web Developer"
               className="relative w-full h-full object-cover rounded-3xl shadow-2xl z-10 rotate-3 hover:rotate-0 transition-transform duration-500 border-4 border-white"
               loading="eager"
             />
