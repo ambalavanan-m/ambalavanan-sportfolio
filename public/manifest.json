@@ -1,0 +1,21 @@
+{
+  "short_name": "Ambalavanan",
+  "name": "Ambalavanan | Software Engineer Portfolio",
+  "icons": [
+    {
+      "src": "/profile.webp",
+      "type": "image/webp",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/profile.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "theme_color": "#2563eb",
+  "description": "Professional portfolio of Ambalavanan M, Software Engineer specializing in Java, Python, React, and Cloud technologies."
+}

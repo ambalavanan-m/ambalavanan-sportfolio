@@ -4,16 +4,16 @@ import { PROJECTS } from '../constants';
 import FadeIn from './FadeIn';
 
 const Projects: React.FC = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<{ image: string, title: string } | null>(null);
   const [filters, setFilters] = useState<string[]>([]);
 
-  const openModal = (image: string) => {
-    setSelectedImage(image);
+  const openModal = (image: string, title: string) => {
+    setSelectedProject({ image, title });
     document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {
-    setSelectedImage(null);
+    setSelectedProject(null);
     document.body.style.overflow = 'auto';
   };
 
@@ -87,7 +87,7 @@ const Projects: React.FC = () => {
                   {/* Image Container */}
                   <div
                     className="relative aspect-video overflow-hidden cursor-pointer bg-slate-100 "
-                    onClick={() => openModal(project.image)}
+                    onClick={() => openModal(project.image, project.title)}
                   >
                     <img
                       src={project.image}
@@ -162,7 +162,7 @@ const Projects: React.FC = () => {
       </div>
 
       {/* Image Zoom Modal */}
-      {selectedImage && (
+      {selectedProject && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/90 backdrop-blur-md p-4 animate-[fadeIn_0.3s_ease-out]"
           onClick={closeModal}
@@ -177,8 +177,8 @@ const Projects: React.FC = () => {
             </button>
 
             <img
-              src={selectedImage}
-              alt="Project Full View"
+              src={selectedProject.image}
+              alt={`${selectedProject.title} - Full View`}
               className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             />
