@@ -4,7 +4,6 @@ import http from 'node:http';
 import puppeteer from 'puppeteer';
 
 const distDir = path.resolve('dist');
-const port = 4173;
 
 const routes = [
   '/',
@@ -67,20 +66,32 @@ const ensureRouteFile = async (route, html) => {
   await fs.writeFile(outPath, html);
 };
 
-await new Promise((resolve) => server.listen(port, resolve));
+await new Promise((resolve) => server.listen(0, resolve));
+const { port } = server.address();
 
-const browser = await puppeteer.launch({ headless: 'new' });
-const page = await browser.newPage();
-
-for (const route of routes) {
-  const url = `http://127.0.0.1:${port}${route}`;
-  await page.goto(url, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => document.title.length > 0);
-  await page.waitForSelector('#root');
-  await new Promise((resolve) => setTimeout(resolve, 1200));
-  const html = await page.content();
-  await ensureRouteFile(route, html);
+if (process.env.VERCEL) {
+  console.log('Skipping Puppeteer prerender on Vercel. Vercel build environment lacks Chromium dependencies.');
+  await server.close();
+  process.exit(0);
 }
 
-await browser.close();
-await new Promise((resolve) => server.close(resolve));
+try {
+  const browser = await puppeteer.launch({ headless: 'new' });
+  const page = await browser.newPage();
+
+  for (const route of routes) {
+    const url = `http://127.0.0.1:${port}${route}`;
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => document.title.length > 0);
+    await page.waitForSelector('#root');
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+    const html = await page.content();
+    await ensureRouteFile(route, html);
+  }
+
+  await browser.close();
+} catch (error) {
+  console.warn('Prerendering skipped due to browser launch error:', error.message);
+} finally {
+  await new Promise((resolve) => server.close(resolve));
+}
