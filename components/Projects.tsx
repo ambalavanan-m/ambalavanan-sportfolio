@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { ArrowRight, ExternalLink, Github, Search, X } from 'lucide-react';
 import { PROJECTS } from '../constants';
 import FadeIn from './FadeIn';
@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 
 const Projects: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<{ image: string, title: string } | null>(null);
-  const [filters, setFilters] = useState<string[]>([]);
 
   const openModal = (image: string, title: string) => {
     setSelectedProject({ image, title });
@@ -16,29 +15,6 @@ const Projects: React.FC = () => {
   const closeModal = () => {
     setSelectedProject(null);
     document.body.style.overflow = 'auto';
-  };
-
-  const allTags = useMemo(() => {
-    const tags = new Set<string>();
-    PROJECTS.forEach(project => {
-      project.techStack.forEach(tech => tags.add(tech));
-    });
-    return Array.from(tags);
-  }, []);
-
-  const filteredProjects = useMemo(() => {
-    if (filters.length === 0) return PROJECTS;
-    return PROJECTS.filter(project =>
-      filters.every(f => project.techStack.includes(f))
-    );
-  }, [filters]);
-
-  const toggleFilter = (tag: string) => {
-    if (filters.includes(tag)) {
-      setFilters(filters.filter(f => f !== tag));
-    } else {
-      setFilters([...filters, tag]);
-    }
   };
 
   return (
@@ -52,37 +28,8 @@ const Projects: React.FC = () => {
           </p>
         </div>
 
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-3 mb-16">
-          <button
-            onClick={() => setFilters([])}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${filters.length === 0
-              ? 'bg-primary border-primary text-white shadow-lg'
-              : 'bg-slate-50  border-slate-200  text-slate-600  hover:bg-slate-100 '
-              }`}
-          >
-            All
-          </button>
-          {allTags.map(tag => {
-            const isSelected = filters.includes(tag);
-            return (
-              <button
-                key={tag}
-                onClick={() => toggleFilter(tag)}
-                className={`px-5 py-2 flex items-center gap-2 rounded-full text-sm font-medium transition-all duration-300 border ${isSelected
-                  ? 'bg-primary border-primary text-white shadow-lg'
-                  : 'bg-slate-50  border-slate-200  text-slate-600  hover:bg-slate-100 '
-                  }`}
-              >
-                {tag}
-                {isSelected && <X className="w-3 h-3 opacity-70" />}
-              </button>
-            );
-          })}
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {filteredProjects.map((project, index) => (
+          {PROJECTS.map((project, index) => (
             <FadeIn key={project.id} delay={index * 100}>
                 <div className="bg-white rounded-[32px] shadow-lg hover:shadow-xl transition-transform duration-300 ease-out border-none group flex flex-col h-full overflow-hidden hover:-translate-y-1">
                   {/* Image Container */}
