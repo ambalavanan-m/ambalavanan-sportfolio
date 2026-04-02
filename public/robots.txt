@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /admin
-Disallow: /convertpdf
 
 Sitemap: https://ambalavanan.vercel.app/sitemap.xml
