@@ -2,7 +2,8 @@ import type { Project } from './types';
 
 const SITE_URL = 'https://ambalavanan.vercel.app';
 const SITE_NAME = 'Ambalavanan Portfolio';
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-cover.svg`;
+const PROFILE_IMAGE = `${SITE_URL}/profile.webp`;
+const DEFAULT_OG_IMAGE = PROFILE_IMAGE;
 
 export type SeoMeta = {
   title: string;
@@ -24,7 +25,8 @@ export const basePersonSchema = {
   name: 'Ambalavanan M',
   alternateName: 'Ambalavanan',
   url: SITE_URL,
-  image: `${SITE_URL}/profile.webp`,
+  image: PROFILE_IMAGE,
+  mainEntityOfPage: SITE_URL,
   sameAs: [
     'https://github.com/ambalavanan01',
     'https://www.linkedin.com/in/ambalavanan-m/',
@@ -44,6 +46,14 @@ export const homeMeta: SeoMeta = {
   ogImage: DEFAULT_OG_IMAGE,
   schema: [
     basePersonSchema,
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ImageObject',
+      contentUrl: PROFILE_IMAGE,
+      url: PROFILE_IMAGE,
+      name: 'Ambalavanan M profile photo',
+      caption: 'Ambalavanan M',
+    },
     {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
@@ -146,3 +156,4 @@ export const defaultMeta = homeMeta;
 export const siteUrl = SITE_URL;
 export const siteName = SITE_NAME;
 export const defaultOgImage = DEFAULT_OG_IMAGE;
+export const profileImage = PROFILE_IMAGE;

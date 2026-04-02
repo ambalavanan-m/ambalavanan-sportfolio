@@ -1,5 +1,5 @@
 import React from 'react';
-import { defaultMeta, defaultOgImage, siteName, toAbsoluteUrl, type SeoMeta } from '../seo';
+import { defaultMeta, defaultOgImage, profileImage, siteName, toAbsoluteUrl, type SeoMeta } from '../seo';
 
 const upsertMeta = (selector: string, attributes: Record<string, string>) => {
   let element = document.head.querySelector(selector) as HTMLMetaElement | null;
@@ -35,15 +35,33 @@ const Seo: React.FC<{ meta?: SeoMeta }> = ({ meta = defaultMeta }) => {
     upsertMeta('meta[name="title"]', { name: 'title', content: title });
     upsertMeta('meta[name="description"]', { name: 'description', content: description });
     upsertMeta('meta[name="robots"]', { name: 'robots', content: robots });
+    upsertMeta('meta[name="googlebot"]', {
+      name: 'googlebot',
+      content: meta.noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large',
+    });
     upsertMeta('meta[property="og:title"]', { property: 'og:title', content: title });
     upsertMeta('meta[property="og:description"]', { property: 'og:description', content: description });
     upsertMeta('meta[property="og:url"]', { property: 'og:url', content: canonical });
     upsertMeta('meta[property="og:image"]', { property: 'og:image', content: ogImage });
+    upsertMeta('meta[property="og:image:secure_url"]', { property: 'og:image:secure_url', content: ogImage });
+    upsertMeta('meta[property="og:image:type"]', { property: 'og:image:type', content: 'image/webp' });
+    upsertMeta('meta[property="og:image:alt"]', {
+      property: 'og:image:alt',
+      content: 'Portrait of Ambalavanan M',
+    });
     upsertMeta('meta[property="og:site_name"]', { property: 'og:site_name', content: siteName });
+    upsertMeta('meta[property="profile:first_name"]', { property: 'profile:first_name', content: 'Ambalavanan' });
+    upsertMeta('meta[property="profile:last_name"]', { property: 'profile:last_name', content: 'M' });
     upsertMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: title });
     upsertMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: description });
     upsertMeta('meta[name="twitter:url"]', { name: 'twitter:url', content: canonical });
+    upsertMeta('meta[name="twitter:card"]', { name: 'twitter:card', content: 'summary_large_image' });
     upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: ogImage });
+    upsertMeta('meta[name="twitter:image:alt"]', {
+      name: 'twitter:image:alt',
+      content: 'Portrait of Ambalavanan M',
+    });
+    upsertMeta('meta[itemprop="image"]', { itemprop: 'image', content: profileImage });
     upsertLink('canonical', canonical);
 
     const schemaId = 'route-schema';
