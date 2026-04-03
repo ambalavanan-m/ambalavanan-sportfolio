@@ -129,18 +129,18 @@ const Terminal: React.FC = () => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8 backdrop-blur-sm bg-slate-950/20">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4 md:p-8 backdrop-blur-sm bg-slate-950/20">
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="w-full max-w-3xl h-[60vh] bg-slate-900/90 rounded-2xl border border-slate-700 shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
+            className="w-full max-w-3xl h-[85vh] sm:h-[70vh] md:h-[60vh] bg-slate-900/90 rounded-2xl border border-slate-700 shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-slate-800/50">
-              <div className="flex items-center gap-3">
-                <TerminalIcon className="w-5 h-5 text-primary" />
-                <span className="text-sm font-mono font-bold text-slate-300">portfolio-sh</span>
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-700 bg-slate-800/50">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <TerminalIcon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                <span className="text-xs sm:text-sm font-mono font-bold text-slate-300">portfolio-sh</span>
               </div>
               <div className="flex items-center gap-4">
                 <div className="hidden sm:flex items-center gap-2 px-2 py-1 bg-slate-700/50 rounded font-mono text-[10px] text-slate-400">
@@ -158,19 +158,19 @@ const Terminal: React.FC = () => {
             {/* Terminal Body */}
             <div 
               ref={historyRef}
-              className="flex-1 overflow-y-auto p-6 font-mono text-sm space-y-2 selection:bg-primary/30 selection:text-white scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent"
+              className="flex-1 overflow-y-auto p-4 sm:p-6 font-mono text-xs sm:text-sm space-y-2 selection:bg-primary/30 selection:text-white custom-scrollbar"
             >
               {history.map((line, idx) => {
                 if (line.startsWith('> ')) {
                   return (
-                    <div key={idx} className="flex gap-3 text-slate-300 font-bold items-start pt-4 first:pt-0">
-                       <ChevronRight className="w-4 h-4 mt-0.5 text-primary shrink-0" />
-                       <span>{line.substring(2)}</span>
+                    <div key={idx} className="flex gap-2 sm:gap-3 text-slate-300 font-bold items-start pt-3 sm:pt-4 first:pt-0">
+                       <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 mt-0.5 text-primary shrink-0" />
+                       <span className="break-all">{line.substring(2)}</span>
                     </div>
                   );
                 }
                 return (
-                  <div key={idx} className="text-slate-400 leading-relaxed whitespace-pre-wrap pl-7">
+                  <div key={idx} className="text-slate-400 leading-relaxed whitespace-pre-wrap pl-5 sm:pl-7 break-words">
                     {line}
                   </div>
                 );
@@ -180,22 +180,23 @@ const Terminal: React.FC = () => {
             {/* Input Line */}
             <form 
               onSubmit={handleSubmit}
-              className="px-6 py-5 bg-slate-800/80 border-t border-slate-700 flex items-center gap-3 relative"
+              className="px-4 sm:px-6 py-4 sm:py-5 bg-slate-800/80 border-t border-slate-700 flex items-center gap-2 sm:gap-3 relative"
             >
-              <div className="flex items-center gap-1 text-primary font-mono font-bold shrink-0">
-                <span>am</span>
-                <span className="text-slate-500">@</span>
-                <span>portfolio</span>
+              <div className="flex items-center gap-0.5 sm:gap-1 text-primary font-mono font-bold shrink-0 text-xs sm:text-sm">
+                <span className="hidden xs:inline">am</span>
+                <span className="text-slate-500 hidden xs:inline">@</span>
+                <span className="hidden sm:inline">portfolio</span>
+                <span className="sm:hidden">sh</span>
                 <span className="text-white">:</span>
                 <span className="text-blue-400">~</span>
-                <span className="text-white px-1">#</span>
+                <span className="text-white px-0.5 sm:px-1">#</span>
               </div>
               <input
                 ref={inputRef}
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="flex-1 bg-transparent border-none outline-none text-white font-mono placeholder:text-slate-600 focus:ring-0 p-0"
+                className="flex-1 bg-transparent border-none outline-none text-white font-mono text-xs sm:text-sm placeholder:text-slate-600 focus:ring-0 p-0 min-w-0"
                 placeholder="type a command..."
                 autoFocus
               />
