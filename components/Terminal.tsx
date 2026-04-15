@@ -59,8 +59,13 @@ const Terminal: React.FC = () => {
         setIsOpen(false);
       }
     };
+    const handleToggle = () => setIsOpen((prev) => !prev);
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('toggle-terminal', handleToggle);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('toggle-terminal', handleToggle);
+    };
   }, [isOpen]);
 
   useEffect(() => {
