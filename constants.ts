@@ -161,49 +161,7 @@ export const PROJECTS: Project[] = [
     role: 'Full Stack Developer',
     duration: '2 Months',
     metrics: ['Interactive Scoring', 'Automated Performance Logs', 'Scalable Assessments'],
-  },
-  {
-    id: 6,
-    slug: 'youtube-focusmode-browser-extension',
-    title: 'YouTube focusmode browser extension',
-    image: 'https://res.cloudinary.com/dfmtkqqaa/image/upload/f_auto,q_auto,w_800/focus-mode_ljx3p3.webp',
-    githubUrl: 'https://github.com/ambalavanan-m/YouTube-focusmode-broswer-extension-',
-    techStack: ['JavaScript', 'Browser Extension', 'CSS'],
-    description: 'Eliminate distractions on YouTube. Hide comments, recommendations, and Shorts with a single click. Focus on what matters.',
-    seoDescription:
-      'YouTube Focusmode is a browser extension that reduces distractions by hiding recommendations, comments, and Shorts for a cleaner viewing experience.',
-    problem:
-      'YouTube can make focused learning difficult because recommendation feeds, Shorts, and comments constantly compete for attention.',
-    solution:
-      'I built a browser extension that simplifies the viewing interface and helps users stay on-task with fewer distractions.',
-    impact:
-      'It reflects my product thinking around habit design, browser extension development, and user-centered productivity tools.',
-    role: 'Frontend & UX Developer',
-    duration: '1 Month',
-    metrics: ['Enhanced Learning Focus', 'Lightweight Footprint', 'User-Centric Design'],
-  },
-  {
-    id: 7,
-    slug: 'local-retrieval-augmented-generation',
-    title: 'Local Retrieval-Augmented Generation',
-    image: 'https://res.cloudinary.com/dfmtkqqaa/image/upload/f_auto,q_auto,w_800/RAG_rbbkay.webp',
-    githubUrl: 'https://github.com/ambalavanan-m/Am-RAG',
-    liveUrl: 'https://am-rag.streamlit.app/',
-    techStack: ['Python', 'Streamlit', 'Vector DB'],
-    description: 'This application allows users to upload documents (PDF, DOCX, PPTX, TXT) to their local machine, automatically chunk and embed the text into a completely local vector database using HuggingFace models, and "chat" with their documents seamlessly.',
-    seoDescription:
-      'Local Retrieval-Augmented Generation is a document chat application using HuggingFace models, local embeddings, and vector search for privacy-friendly RAG workflows.',
-    problem:
-      'Many document question-answering tools rely on cloud pipelines, which can limit privacy and reduce local control over sensitive data.',
-    solution:
-      'This project uses local vector storage and HuggingFace-powered embeddings so users can upload files and chat with their documents without a cloud-first dependency.',
-    impact:
-      'It demonstrates applied AI engineering, document processing, vector search integration, and practical experimentation with modern RAG patterns.',
-    role: 'AI Engineer',
-    duration: '2 Months',
-    metrics: ['Privacy-Friendly AI', 'Fast Vector Search', 'Local Inference'],
-  },
-
+  }
 ];
 
 export const FORMSPREE_URL = "https://formspree.io/f/mrepwolr";
