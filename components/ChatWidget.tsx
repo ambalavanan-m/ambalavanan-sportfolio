@@ -215,7 +215,7 @@ const ChatWidget: React.FC = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed bottom-10 left-4 md:left-8 w-[min(92vw,420px)] h-[min(90vh,800px)] bg-white z-[80] shadow-[0_-10px_100px_rgba(0,0,0,0.1)] flex flex-col border border-slate-100 rounded-t-[2.5rem] overflow-hidden"
+              className="fixed bottom-10 left-4 md:left-8 w-[min(92vw,420px)] h-[min(86vh,790px)] bg-white z-[80] shadow-[0_-10px_100px_rgba(0,0,0,0.1)] flex flex-col border border-slate-100 rounded-t-[2.5rem] overflow-hidden"
             >
               {/* Header */}
               <div className="bg-text p-5 text-white flex justify-between items-center shrink-0 relative overflow-hidden">
