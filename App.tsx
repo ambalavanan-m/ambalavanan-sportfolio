@@ -15,7 +15,6 @@ import { adminMeta, homeMeta, resumeMeta } from './seo';
 import ProjectDetail from './components/ProjectDetail';
 import NotFound from './components/NotFound';
 import Terminal from './components/Terminal';
-import ChatWidget from './components/ChatWidget';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -99,8 +98,6 @@ export const AppContent: React.FC = () => {
       <Toaster position="bottom-right" reverseOrder={false} />
       <ScrollToTop />
       <AnimatedRoutes />
-      {/* <FloatingShare /> */}
-      <ChatWidget />
       <Terminal />
     </ThemeProvider>
   );
