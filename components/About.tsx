@@ -73,7 +73,7 @@ const About: React.FC = () => {
   return (
     <section id="about" className="py-24 bg-transparent transition-colors duration-300 relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-7xl space-y-24">
-        
+
         {/* Row 1: Animation & Content */}
         <div className="flex flex-col lg:flex-row items-center gap-20">
           {/* Left: Animation Area */}
@@ -133,7 +133,7 @@ const About: React.FC = () => {
             <FadeIn direction="up" delay={300} className="flex-1 flex flex-col">
               <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-6 border-b border-slate-100 pb-4 flex items-center justify-between">
                 <span className="flex items-center gap-2">
-                   Recognition
+                  Recognition
                 </span>
                 <span className="font-medium text-slate-400 normal-case">{totalReviews} Verified Entries</span>
               </h3>
@@ -176,7 +176,7 @@ const About: React.FC = () => {
                             <Pin size={12} className="fill-current" />
                             <span className="text-[9px] font-bold uppercase tracking-[0.2em]">Featured Case</span>
                           </div>
-                   
+
                         </div>
 
                         <p className="text-text font-medium text-lg md:text-xl leading-snug mb-8 relative z-10 flex-1 flex items-center tracking-tight">
@@ -190,7 +190,7 @@ const About: React.FC = () => {
                           <div>
                             <p className="text-sm font-bold text-text uppercase tracking-tight">{pinnedReviews[currentIndex].name}</p>
                             <div className="flex gap-0.5 mt-1">
-                               <StarRating rating={pinnedReviews[currentIndex].rating} />
+                              <StarRating rating={pinnedReviews[currentIndex].rating} />
                             </div>
                           </div>
                         </div>
@@ -242,22 +242,22 @@ const About: React.FC = () => {
                   >
                     {CERTIFICATIONS[certIndex].image ? (
                       <div className="flex flex-col items-center justify-center w-full">
-                        <img 
-                          src={CERTIFICATIONS[certIndex].image} 
+                        <img
+                          src={CERTIFICATIONS[certIndex].image}
                           alt={CERTIFICATIONS[certIndex].title}
                           className="w-full h-[220px] object-contain transition-all duration-500"
                         />
                         <div className="mt-8 text-center space-y-1">
-                           <p className="text-text font-bold tracking-tight">{CERTIFICATIONS[certIndex].title}</p>
-                           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                          <p className="text-text font-bold tracking-tight">{CERTIFICATIONS[certIndex].title}</p>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                             {CERTIFICATIONS[certIndex].issuer}
-                           </p>
+                          </p>
                         </div>
                       </div>
                     ) : (
                       <div className="bg-white p-4 rounded-xl border border-slate-50 shadow-sm transition-all duration-500">
-                        <CredlyBadge 
-                          badgeId={CERTIFICATIONS[certIndex].id || ''} 
+                        <CredlyBadge
+                          badgeId={CERTIFICATIONS[certIndex].id || ''}
                           width={240}
                           height={180}
                         />
