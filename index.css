@@ -48,17 +48,7 @@
     @apply border-primary/50 shadow-md;
   }
 
-  /* Force Custom Image Cursor */
-  *,
-  body,
-  a,
-  button,
-  [role="button"],
-  input,
-  select,
-  textarea {
-    cursor: url('/custom-cursor.svg') 12 12, auto !important;
-  }
+
 
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;

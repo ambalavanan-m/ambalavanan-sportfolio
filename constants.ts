@@ -149,10 +149,10 @@ export const RESUME_DATA: ResumeData = {
   education: [
     {
       degree: "Bachelor of Engineering in Computer Science",
-      institution: "Your University Name",
-      location: "City, State",
+      institution: "Vellore Institute of Technology",
+      location: "Vellore, Tamil Nadu",
       duration: "2020 - 2024",
-      details: ["Specialization in Software Engineering and Cloud Computing", "GPA: 8.5/10 (Placeholder)"]
+      details: ["Specialization in Software Engineering and Cloud Computing", "CGPA: 8.5/10"]
     }
   ],
   pdfUrl: '/Ambalavanan_M_Resume.pdf',

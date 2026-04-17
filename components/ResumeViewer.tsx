@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Download, Printer, Github, Linkedin, Mail, MapPin, Briefcase, GraduationCap, Award, ExternalLink, Globe, FileText } from 'lucide-react';
+import { ArrowLeft, Download, Printer, Github, Linkedin, Mail, MapPin, Briefcase, GraduationCap, Award, ExternalLink, Globe, FileText, FileCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { RESUME_DATA, SKILL_CATEGORIES, PROJECTS } from '../constants';
@@ -38,6 +38,16 @@ const ResumeViewer: React.FC = () => {
                         <Printer size={16} /> 
                         <span className="hidden sm:inline">Print Version</span>
                     </button>
+                    <a
+                        href="https://ambalavanan-resume-check.vercel.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-white border border-slate-200 text-slate-500 hover:text-primary hover:border-primary/30 rounded-xl transition-all shadow-sm flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest"
+                        title="Check ATS Score"
+                    >
+                        <FileCheck size={16} /> 
+                        <span className="hidden sm:inline">ATS Check</span>
+                    </a>
                     <button
                         onClick={() => handleDownload(RESUME_DATA.pdfUrl, 'PDF')}
                         className="px-6 py-3 bg-text hover:bg-primary text-white rounded-xl transition-all shadow-lg shadow-text/5 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2"
