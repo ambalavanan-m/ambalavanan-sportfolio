@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
-import { Check, Copy, Github, HelpCircle, Instagram, Linkedin, LoaderCircle, Mail, MessageCircle, Phone, Send, Star, Twitter, X } from 'lucide-react';
+import { ArrowRight, Check, Chrome, Copy, Github, HelpCircle, Instagram, Linkedin, LoaderCircle, Mail, MessageCircle, Phone, Send, Star, Twitter, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import emailjs from '@emailjs/browser';
 import { ContactFormState, FormStatus } from '../types';
 import ReviewForm from './ReviewForm';
+import { auth, db } from '../firebase';
+import { 
+  signInWithPopup, 
+  GoogleAuthProvider, 
+  GithubAuthProvider,
+  onAuthStateChanged,
+  User
+} from 'firebase/auth';
+import { 
+  doc, 
+  setDoc, 
+  getDoc, 
+  serverTimestamp 
+} from 'firebase/firestore';
 
 const Contact: React.FC = () => {
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -19,6 +33,63 @@ const Contact: React.FC = () => {
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errors, setErrors] = useState<Partial<ContactFormState>>({});
   const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
+
+  const [user, setUser] = useState<User | null>(null);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isSubscribing, setIsSubscribing] = useState(false);
+
+  React.useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        checkSubscription(currentUser.uid);
+      } else {
+        setIsSubscribed(false);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const checkSubscription = async (uid: string) => {
+    try {
+      const docRef = doc(db, 'subscribers', uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setIsSubscribed(true);
+      }
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+    }
+  };
+
+  const handleSubscribe = async (provider: 'google' | 'github') => {
+    setIsSubscribing(true);
+    const authProvider = provider === 'google' ? new GoogleAuthProvider() : new GithubAuthProvider();
+    
+    try {
+      const result = await signInWithPopup(auth, authProvider);
+      const { user } = result;
+      
+      const docRef = doc(db, 'subscribers', user.uid);
+      await setDoc(docRef, {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        subscribedAt: serverTimestamp(),
+        provider
+      }, { merge: true });
+
+      setIsSubscribed(true);
+      toast.success('Successfully subscribed to the community!');
+    } catch (error: any) {
+      console.error('Subscription error:', error);
+      if (error.code !== 'auth/popup-closed-by-user') {
+        toast.error('Failed to subscribe. Please try again.');
+      }
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
 
   const handleCopy = (email: string) => {
     navigator.clipboard.writeText(email);
@@ -319,6 +390,54 @@ const Contact: React.FC = () => {
                 </button>
               </div>
             </form>
+
+            <div className="mt-12 pt-8 border-t border-slate-100">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div>
+                  <h4 className="text-sm font-extrabold text-text uppercase tracking-widest mb-1">Join the Community</h4>
+                  <p className="text-[10px] text-slate-400 font-medium">Subscribe to stay updated with my latest projects and insights.</p>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                  {isSubscribed ? (
+                    <div className="flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 animate-[fadeIn_0.5s_ease-out]">
+                      <Check className="w-4 h-4" />
+                      <span className="text-xs font-bold uppercase tracking-widest">Subscribed!</span>
+                    </div>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleSubscribe('google')}
+                        disabled={isSubscribing}
+                        className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all group"
+                        title="Subscribe with Google"
+                      >
+                        <Chrome className="w-5 h-5 transition-transform group-hover:scale-110" />
+                      </button>
+                      <button
+                        onClick={() => handleSubscribe('github')}
+                        disabled={isSubscribing}
+                        className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all group"
+                        title="Subscribe with GitHub"
+                      >
+                        <Github className="w-5 h-5 transition-transform group-hover:scale-110" />
+                      </button>
+                      <button
+                        onClick={() => handleSubscribe('google')}
+                        disabled={isSubscribing}
+                        className="px-6 py-3 rounded-xl bg-primary text-white font-bold text-[10px] uppercase tracking-widest hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all flex items-center gap-2"
+                      >
+                        {isSubscribing ? (
+                          <LoaderCircle className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <>Subscribe <ArrowRight className="w-3 h-3" /></>
+                        )}
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

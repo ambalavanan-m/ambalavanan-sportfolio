@@ -3,7 +3,7 @@ import FadeIn from './FadeIn';
 import { db } from '../firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import StarRating from './StarRating';
-import { ArrowRight, Award, ChevronLeft, ChevronRight, MessageSquare, Pin, Quote, Star } from 'lucide-react';
+import { ArrowRight, Award, ChevronLeft, ChevronRight, MessageSquare, Pin, Quote, Star, Users } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CredlyBadge from './CredlyBadge';
 import { CERTIFICATIONS } from '../constants';
@@ -12,9 +12,18 @@ import { CERTIFICATIONS } from '../constants';
 const About: React.FC = () => {
   const [averageRating, setAverageRating] = React.useState<number | null>(null);
   const [totalReviews, setTotalReviews] = React.useState<number>(0);
+  const [totalSubscribers, setTotalSubscribers] = React.useState<number>(0);
   const [pinnedReviews, setPinnedReviews] = React.useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [certIndex, setCertIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const q = query(collection(db, 'subscribers'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setTotalSubscribers(snapshot.size);
+    });
+    return () => unsubscribe();
+  }, []);
 
   React.useEffect(() => {
     const q = query(collection(db, 'reviews'), where('status', '==', 'approved'));
@@ -130,16 +139,16 @@ const About: React.FC = () => {
         <div className="flex flex-col lg:flex-row items-stretch gap-12">
           {/* Left: Community Feedback */}
           <div className="w-full lg:w-3/5 flex flex-col">
-            <FadeIn direction="up" delay={300} className="flex-1 flex flex-col">
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-6 border-b border-slate-100 pb-4 flex items-center justify-between">
+            <FadeIn direction="up" delay={300} className="flex-1 flex flex-col gap-6">
+              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-0 border-b border-slate-100 pb-4 flex items-center justify-between">
                 <span className="flex items-center gap-2">
                   Recognition
                 </span>
                 <span className="font-medium text-slate-400 normal-case">{totalReviews} Verified Entries</span>
               </h3>
 
-              <div className="grid grid-cols-1 gap-6 flex-1">
-                {/* Stats Card */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                {/* Stats Card - Rating */}
                 <div className="studio-card rounded-2xl p-8 flex items-center justify-between">
                   <div className="flex items-center gap-5">
                     <div className="w-14 h-14 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-primary">
@@ -150,14 +159,25 @@ const About: React.FC = () => {
                       <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Visitors Rating</p>
                     </div>
                   </div>
-                  <div className="hidden sm:flex gap-1">
-                    <StarRating rating={averageRating || 0} />
+                </div>
+
+                {/* Stats Card - Community */}
+                <div className="studio-card rounded-2xl p-8 flex items-center justify-between group hover:border-primary/20 transition-all duration-300">
+                  <div className="flex items-center gap-5">
+                    <div className="w-14 h-14 rounded-xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                      <Users size={24} />
+                    </div>
+                    <div>
+                      <p className="text-3xl font-extrabold text-text tracking-tighter">{totalSubscribers}</p>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Community</p>
+                    </div>
                   </div>
                 </div>
+              </div>
 
                 {/* Pinned Testimonial Carousel */}
                 {pinnedReviews.length > 0 && (
-                  <div className="relative group flex-1 flex flex-col justify-center min-h-[240px]">
+                  <div className="relative group flex flex-col justify-center min-h-[240px]">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={currentIndex}
@@ -220,14 +240,13 @@ const About: React.FC = () => {
                     )}
                   </div>
                 )}
-              </div>
             </FadeIn>
           </div>
 
           {/* Right: Certifications & Badges */}
           <div className="w-full lg:w-2/5 flex flex-col">
-            <FadeIn direction="up" delay={400} className="flex-1 flex flex-col">
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-6 border-b border-slate-100 pb-4 flex items-center gap-2">
+            <FadeIn direction="up" delay={400} className="flex-1 flex flex-col gap-6">
+              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-0 border-b border-slate-100 pb-4 flex items-center gap-2">
                 Validation
               </h3>
               <div className="studio-card rounded-2xl p-10 flex flex-col items-center justify-center relative group flex-1">
