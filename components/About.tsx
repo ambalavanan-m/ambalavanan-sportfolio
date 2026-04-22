@@ -168,7 +168,7 @@ const About: React.FC = () => {
                       <Users size={24} />
                     </div>
                     <div>
-                      <p className="text-3xl font-extrabold text-text tracking-tighter">{totalSubscribers}</p>
+                      <p className="text-3xl font-extrabold text-text tracking-tighter">{30+totalSubscribers}</p>
                       <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Community</p>
                     </div>
                   </div>
