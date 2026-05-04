@@ -45,21 +45,23 @@ const ResumeViewer: React.FC = () => {
             
             {/* Header/Nav Glassmorphism */}
             <header className="relative z-20 w-full pt-6 md:pt-10 px-4 sm:px-6 mb-6">
-                <div className="max-w-5xl mx-auto w-full bg-white/70 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 transition-all">
+                <div className="max-w-5xl mx-auto w-full bg-white/70 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-4 flex flex-row items-center justify-between gap-3 sm:gap-4 transition-all">
                     <button
                         onClick={() => navigate('/')}
-                        className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-all font-bold text-xs uppercase tracking-widest group px-5 py-3 rounded-xl bg-white border-2 border-slate-100 shadow-[0_4px_0_0_rgba(226,232,240,1)] hover:shadow-[0_6px_0_0_rgba(226,232,240,1)] hover:-translate-y-0.5 active:shadow-[0_0px_0_0_rgba(226,232,240,1)] active:translate-y-1"
+                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 text-slate-500 hover:text-slate-800 transition-all font-bold text-xs uppercase tracking-widest group px-3 sm:px-5 py-3 rounded-xl bg-white border-2 border-slate-100 shadow-[0_4px_0_0_rgba(226,232,240,1)] hover:shadow-[0_6px_0_0_rgba(226,232,240,1)] hover:-translate-y-0.5 active:shadow-[0_0px_0_0_rgba(226,232,240,1)] active:translate-y-1"
                     >
-                        <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" /> Dashboard
+                        <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" /> 
+                        <span className="hidden sm:inline">Dashboard</span>
+                        <span className="sm:hidden">Back</span>
                     </button>
                     
-                    <div className="flex items-center justify-center gap-3 w-full sm:w-auto">
+                    <div className="flex items-center justify-center gap-3 flex-1 sm:flex-none">
                         <button
                             onClick={handleDownload}
-                            className="flex-1 sm:flex-none justify-center px-6 py-3 bg-slate-900 border-2 border-slate-900 text-white rounded-xl transition-all shadow-[0_4px_0_0_rgba(15,23,42,1)] hover:bg-slate-800 hover:shadow-[0_6px_0_0_rgba(15,23,42,1)] hover:-translate-y-0.5 active:shadow-[0_0px_0_0_rgba(15,23,42,1)] active:translate-y-1 text-xs font-bold uppercase tracking-widest flex items-center gap-2"
+                            className="w-full sm:w-auto flex justify-center px-3 sm:px-6 py-3 bg-slate-900 border-2 border-slate-900 text-white rounded-xl transition-all shadow-[0_4px_0_0_rgba(15,23,42,1)] hover:bg-slate-800 hover:shadow-[0_6px_0_0_rgba(15,23,42,1)] hover:-translate-y-0.5 active:shadow-[0_0px_0_0_rgba(15,23,42,1)] active:translate-y-1 text-xs font-bold uppercase tracking-widest items-center gap-2"
                         >
                             <Download size={16} /> 
-                            <span className="hidden sm:inline">Download PDF</span>
+                            <span>Download</span>
                         </button>
                     </div>
                 </div>
